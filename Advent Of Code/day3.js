@@ -59,7 +59,14 @@ const arr = data.split("\n");
 arr.pop();
 
 const maxLength = arr[0].length;
-let steps = [1, 3, 5, 7];
+let steps = [
+  [1, false],
+  [3, false],
+  [5, false],
+  [7, false],
+  [1, true],
+];
+
 let position = 0;
 let trees = 0;
 
@@ -76,7 +83,6 @@ const countTrees = function (matrix, step, skip = false) {
       } else {
         // console.log(matrix[line], "No Tree at", position);
       }
-
       if (position + step > maxLength - 1) {
         position = position + step - maxLength;
       } else {
@@ -85,10 +91,22 @@ const countTrees = function (matrix, step, skip = false) {
     }
   }
 
-  console.log("Steps:", step, "Trees:", trees);
+  console.log("Steps:", step, "Skip", skip, "Trees:", trees);
+  const sol_trees = trees;
+
   trees = 0;
   position = 0;
+
+  return sol_trees;
 };
 
-steps.forEach((step) => countTrees(arr, step));
-countTrees(arr, 1, true);
+const results = []; //103, 151, 83, 99, 59
+
+steps.forEach((step) => {
+  results.push(countTrees(arr, step[0], step[1]));
+});
+
+console.log(
+  "Solution:",
+  results.reduce((acc, cum) => acc * cum) //7540141059
+);
