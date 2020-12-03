@@ -60,23 +60,23 @@ arr.pop();
 
 const maxLength = arr[0].length;
 let steps = [
-  [1, false],
-  [3, false],
-  [5, false],
-  [7, false],
-  [1, true],
+  [1, 1],
+  [3, 1],
+  [5, 1],
+  [7, 1],
+  [1, 2],
 ];
 
 let position = 0;
 let trees = 0;
 
-const countTrees = function (matrix, step, skip = false) {
+const countTrees = function (matrix, step, skip = 1) {
   for (const line in matrix) {
     if (+line === 0) {
       //   console.log(matrix[line], "No tree at", position, "<- init");
       position += step;
     } else {
-      if (skip && line % 2 != 0) continue;
+      if (line % skip != 0) continue;
       if (matrix[+line][position] === "#") {
         // console.log(matrix[line], "Tree at", position);
         trees += 1;
