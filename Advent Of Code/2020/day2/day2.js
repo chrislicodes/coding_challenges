@@ -25,7 +25,7 @@ const fs = require("fs");
 
 //Asynchronously reads the entire contents of the file
 const checkLenPolicy = function () {
-  fs.readFile("./input_day2.txt", (err, data) => {
+  fs.readFile("./input.txt", (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -72,7 +72,7 @@ checkLenPolicy();
 //Asynchronously reads the entire contents of the file
 //not DRY, but will learn about async later ..
 const checkLenPolicyTwo = function () {
-  fs.readFile("./input_day2.txt", (err, data) => {
+  fs.readFile("./input.txt", (err, data) => {
     if (err) {
       console.log(err);
     } else {
