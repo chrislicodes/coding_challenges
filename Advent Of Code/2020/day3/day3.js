@@ -68,10 +68,12 @@ const countTrees = function (matrix, step, skip = 1) {
 
 const results = []; //103, 151, 83, 99, 59
 
+//Execute function for all step and skip sizes
 steps.forEach((step) => {
   results.push(countTrees(arr, step[0], step[1]));
 });
 
+//Print solution for part 2
 console.log(
   "Solution:",
   results.reduce((acc, cum) => acc * cum) //7540141059
