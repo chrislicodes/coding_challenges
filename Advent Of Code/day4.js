@@ -60,7 +60,6 @@
 //   .split(/\n{2,}/g);
 
 // const mandFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-// const mandFieldsLen = mandFields.length;
 // let validPassports = 0;
 
 // passports.forEach((item) => {
@@ -68,18 +67,14 @@
 //   const checkArr = [];
 
 //   console.log(fields);
-
-//   //   console.log(fields);
-
 //   for (const field of fields) {
 //     checkArr.push(field.split(":")[0]);
 //   }
 
-//   if (
-//     mandFields.filter((item) => checkArr.includes(item)).length ===
-//     mandFieldsLen
-//   )
-//     validPassports += 1;
+//   for (const key of mandFields) {
+//     if (!checkArr.includes(key)) return;
+//   }
+//   validPassports++;
 // });
 
 // console.log("Valid passports:", chalk.blue(validPassports));
@@ -165,30 +160,61 @@ const passports = data
   .replace(/\n\r/g, "\n")
   .replace(/\r/g, "\n")
   .split(/\n{2,}/g);
-
-console.log(passports);
-
-let validPassports = 0;
+// .slice(0, 10);
 
 const validRules = {
-  byr: /^19[2-9][0-9]$|^200[0-2]$/g, //done
-  iyr: /^20[1][0-9]$|^2020$/g, //done
-  eyr: /^(\d{4})$/g, //needs work
-  hgt: /^(\d*)(cm|in)$/g, //needs work
-  hcl: /^(#[0-9a-f]{6})$/g, //done
-  ecl: /^(amb|blu|brn|gry|grn|hzl|oth)$/g, //done
-  pid: /^(\d{9})$/g, //done
+  byr: /^19[2-9][0-9]$|^200[0-2]$/, //done
+  iyr: /^201[0-9]$|^2020$/, //done
+  eyr: /^202[0-9]$|^2030$/, //done
+  hgt: /^1([5-8][0-9]|9[0-3])cm$|^(59|6[0-9]|7[0-6])in$/, //done
+  hcl: /^(#[0-9a-f]{6})$/, //done
+  ecl: /^(amb|blu|brn|gry|grn|hzl|oth)$/, //done
+  pid: /^([0-9]{9})$/, //done
 };
 
-passports.forEach((item) => {
-  const fields = item.split(/\s/g);
-  const checkObj = {};
+const mandatoryKeys = Object.keys(validRules);
 
-  for (const field of fields) {
-    const [key, item] = field.split(":");
+const checkPassports = function (passportArr, rules, validate) {
+  let validPassports = 0;
 
-    checkObj[key] = item;
-  }
+  passportArr.forEach((item) => {
+    const fields = item.split(/\s/g);
+    const fieldObj = {};
 
-  console.log(checkObj);
-});
+    //Create the object
+    for (const field of fields) {
+      const [key, item] = field.split(":");
+      fieldObj[key] = item;
+    }
+
+    const includedFields = Object.keys(fieldObj);
+
+    //Check if all mandatory fields are available
+    const checkMandKeys =
+      mandatoryKeys.filter((item) => {
+        return includedFields.includes(item);
+      }).length === mandatoryKeys.length;
+
+    //if not, stop checking
+    if (!checkMandKeys) return;
+
+    if (validate) {
+      let isValid = true;
+      mandatoryKeys.forEach((key) => {
+        if (!validRules[key].test(fieldObj[key])) {
+          isValid = false;
+          return;
+        }
+      });
+      if (!isValid) return;
+      validPassports += 1;
+    } else {
+      validPassports += 1;
+    }
+  });
+
+  console.log(validPassports);
+};
+
+checkPassports(passports, validRules, false); //228
+checkPassports(passports, validRules, true); //175
