@@ -31,16 +31,32 @@ let t0 = performance.now();
 
 const answerArr = data.split(/\n{2,}/g);
 
-let answers = 0;
+const evaluateAnswers = function (arr, version) {
+  let answers = 0;
 
-answerArr.forEach((answerGroup) => {
-  const groupAnswers = answerGroup.replace(/\n/g, " ").split(" ");
-  const answerJoin = groupAnswers.join("");
-  const uniqueLetters = new Set(answerJoin);
-  answers += uniqueLetters.size;
-});
+  arr.forEach((answerGroup) => {
+    const groupAnswers = answerGroup.replace(/\n/g, " ").split(" ");
+    const answerJoin = groupAnswers.join("");
+    const uniqueLetters = new Set(answerJoin);
+    const membersInGroup = groupAnswers.length;
 
-console.log("Answers:", answers);
+    if (version === 1) {
+      answers += uniqueLetters.size;
+    } else if (version === 2) {
+      for (const letter of uniqueLetters) {
+        const re = new RegExp(letter, "g");
+        const lineLen = (answerJoin.match(re) || []).length;
+
+        if (lineLen === membersInGroup) answers++;
+      }
+    }
+  });
+
+  console.log("Version:", version, "Answers:", answers);
+};
+
+evaluateAnswers(answerArr, 1); //6532
+
 //########################################
 
 console.log(
@@ -53,24 +69,7 @@ t0 = performance.now();
 
 //########################################
 
-answers = 0;
-
-answerArr.forEach((answerGroup) => {
-  const groupAnswers = answerGroup.replace(/\n/g, " ").split(" ");
-  const membersInGroup = groupAnswers.length;
-
-  const answerJoin = groupAnswers.join("");
-  const uniqueLetters = new Set(answerJoin);
-
-  for (const letter of uniqueLetters) {
-    const re = new RegExp(letter, "g");
-    const lineLen = (answerJoin.match(re) || []).length;
-
-    if (lineLen === membersInGroup) answers++;
-  }
-});
-
-console.log(answers);
+evaluateAnswers(answerArr, 2); //3427
 
 //########################################
 
