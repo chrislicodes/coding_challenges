@@ -26,53 +26,45 @@ let t0 = performance.now();
 
 const matrix = data.split(/\n/g); //.slice(0, 10);
 
+//Init array for all the rules
 const bagRules = {};
-const goalRules = {};
-const endNodes = {};
 
+//create all the rules
 for (const rule of matrix) {
   const [key, ...content] = rule.match(/\w+\s\w+(?=\s+bag)/g);
   bagRules[key] = content;
 }
 
-for (const key of Object.keys(bagRules)) {
-  if (bagRules[key].includes("shiny gold")) goalRules[key] = bagRules[key];
-  if (bagRules[key].includes("no other")) endNodes[key] = bagRules[key];
-}
+//keep track of what to search for
+const searchStack = ["shiny gold"];
+const solutions = {};
 
-// console.log(bagRules);
-// console.log(goalRules);
-// console.log(endNodes);
+//function to check the stack and search for possible solutions beginning from the end
+const unpackBags = function (rules, searchColor) {
+  console.log(
+    chalk.bgBlue(
+      `--> New Round, searching for ${searchColor}. Current Search - Stack: ${searchStack}, Current Solutions: ${solutions}`
+    )
+  );
 
-const unpackBag = function (bag, arr) {
-  return arr[bag];
+  //for each bag rule we take all the bags inside that rule
+  for (const [keyColor, bagColors] of Object.entries(rules)) {
+    //and check whether this set of bags includes our desired color
+    if (bagColors.includes(searchColor) && !searchColor in solutions) {
+      //if it contains our desired color, then we will first accept it as possible answer
+      solutions[keyColor] = true;
+
+      //and also add the color to the stack, so that we can search backwards for more occurrences
+      searchStack.push(keyColor);
+    }
+  }
+
+  if (searchStack.length > 1) unpackBags(rules, searchStack.pop());
 };
 
-const unpackedArr = {};
+unpackBags(bagRules, searchStack.pop());
 
-for (const key of Object.keys(bagRules)) {
-  //keeping track of the key
-  const unpacked = [];
-  bagRules[key].forEach((item, i) => {
-    if (item === "shiny gold") {
-      unpacked.push("shiny gold");
-      return;
-    }
-    if (item === "no other") {
-      unpacked.push("no other");
-      return;
-    }
-    if (item in bagRules) {
-      unpacked.push(bagRules[item]);
-    } else {
-      unpacked.push(item);
-    }
-  });
-
-  unpackedArr[key] = unpacked.flat();
-}
-console.log(bagRules);
-console.log(unpackedArr);
+console.log(solutions.length);
 
 // ########################################
 
