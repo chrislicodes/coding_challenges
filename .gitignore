@@ -2,3 +2,5 @@ test.md
 node_modules/
 package-lock.json
 template.js
+*.ipynb
+.ipynb_checkpoints
