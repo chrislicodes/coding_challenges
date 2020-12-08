@@ -7,7 +7,7 @@ const { performance } = require("perf_hooks");
 
 //########################################
 
-const filePath = "./testInput.txt";
+const filePath = "./input.txt";
 
 //########################################
 
@@ -41,30 +41,42 @@ const solutions = {};
 
 //function to check the stack and search for possible solutions beginning from the end
 const unpackBags = function (rules, searchColor) {
-  console.log(
-    chalk.bgBlue(
-      `--> New Round, searching for ${searchColor}. Current Search - Stack: ${searchStack}, Current Solutions: ${solutions}`
-    )
-  );
+  // console.log(
+  // chalk.bgBlue(
+  // `--> New Round, searching for ${searchColor}. Current Search - Stack: ${searchStack}`
+  // )
+  // );
 
   //for each bag rule we take all the bags inside that rule
   for (const [keyColor, bagColors] of Object.entries(rules)) {
+    // console.log(
+    // `Searching for ${searchColor} in ${keyColor} with ${bagColors} ${bagColors.includes(
+    // searchColor
+    // )}`
+    // );
     //and check whether this set of bags includes our desired color
-    if (bagColors.includes(searchColor) && !searchColor in solutions) {
+    if (
+      bagColors.includes(searchColor) &&
+      !Object.keys(solutions).includes(keyColor)
+    ) {
       //if it contains our desired color, then we will first accept it as possible answer
+      // console.log(chalk.green(`Adding ${keyColor} to the solutions.`));
       solutions[keyColor] = true;
-
+      // console.log("New solutions:", solutions);
       //and also add the color to the stack, so that we can search backwards for more occurrences
+      // console.log(chalk.red("Pushing", keyColor, "to searchStack."));
       searchStack.push(keyColor);
+    } else {
+      // console.log(chalk.grey("Nothing to do .."));
     }
   }
 
-  if (searchStack.length > 1) unpackBags(rules, searchStack.pop());
+  if (searchStack.length > 0) unpackBags(rules, searchStack.pop());
 };
 
 unpackBags(bagRules, searchStack.pop());
 
-console.log(solutions.length);
+console.log(Object.keys(solutions).length); //172
 
 // ########################################
 
