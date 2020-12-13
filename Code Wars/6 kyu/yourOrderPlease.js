@@ -24,3 +24,12 @@ const order = function (words) {
 };
 
 let test = order("is2 Thi1s T4est 3a");
+
+//Better solution - learned: remember that we can add full functions into the sort method
+
+// function order(words){
+
+//   return words.split(' ').sort(function(a, b){
+//       return a.match(/\d/) - b.match(/\d/);
+//    }).join(' ');
+// }
