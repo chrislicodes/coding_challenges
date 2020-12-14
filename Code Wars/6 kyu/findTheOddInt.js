@@ -20,3 +20,8 @@ function findOdd(A) {
 }
 
 findOdd([20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5]);
+
+//amazing solution:
+// function findOdd(A) {
+//   return A.reduce(function(c,v){return c^v;},0);
+// }
