@@ -32,8 +32,7 @@ function validBraces(braces) {
     if (brace in openings) {
       stack.push(brace);
     } else {
-      if (openings[stack[stack.length - 1]] !== brace) return false;
-      stack.pop();
+      if (openings[stack.pop()] !== brace) return false;
     }
   }
 
