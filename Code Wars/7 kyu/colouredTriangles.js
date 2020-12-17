@@ -45,7 +45,7 @@ const lookUp = new Map([
   ["RB", "G"],
 ]);
 
-const triangle = function (row, cache = "", memo = []) {
+const triangle = function (row, memo = []) {
   //base case - if we reduced the input to length one, then this will be the final solution
   if (row.length === 1) return row;
 
@@ -57,9 +57,7 @@ const triangle = function (row, cache = "", memo = []) {
     }
   }
 
-  cache = memo.join("");
-
-  return triangle(cache);
+  return triangle(memo.join(""));
 };
 
 console.log(triangle("GB")); //R
