@@ -45,7 +45,7 @@ const lookUp = new Map([
   ["RB", "G"],
 ]);
 
-const triangle = function (row, memo = []) {
+const triangle = function (row, colors = []) {
   //base case - if we reduced the input to length one, then this will be the final solution
   if (row.length === 1) return row;
 
@@ -53,11 +53,11 @@ const triangle = function (row, memo = []) {
   for (const i in row) {
     const slice = row.slice(i, +i + 2);
     if (slice.length > 1) {
-      memo.push(lookUp.get(slice));
+      colors.push(lookUp.get(slice));
     }
   }
 
-  return triangle(memo.join(""));
+  return triangle(colors.join(""));
 };
 
 console.log(triangle("GB")); //R
