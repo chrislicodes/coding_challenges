@@ -9,7 +9,7 @@
 function solution(number) {
   const arrNum = Array.from({ length: number - 1 }, (_, i) => i + 1)
     .filter((num) => num % 3 === 0 || num % 5 === 0)
-    .reduce((acc, cum) => acc + cum);
+    .reduce((acc, cum) => acc + cum, 0);
   return arrNum;
 }
 
