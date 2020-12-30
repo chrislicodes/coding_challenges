@@ -24,6 +24,14 @@ const solution = function (input, markers) {
   return sol.join("\n");
 };
 
+// Alternative Solution
+// function solution(input, markers) {
+//   return input.replace(
+//     new RegExp("\\s?[" + markers.join("") + "].*(\\n)?", "gi"),
+//     "$1"
+//   );
+// }
+
 console.log(
   solution("apples, plums % and bananas\npears\noranges !applesauce", [
     "%",
