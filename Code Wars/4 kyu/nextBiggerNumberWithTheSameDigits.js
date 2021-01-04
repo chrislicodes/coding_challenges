@@ -37,29 +37,21 @@ const nextBigger = function (num) {
     let num1 = nCheck[i];
     let num2 = nCheck[+i + 1];
 
-    // console.log(`Checking ${num1} and ${num2}`);
-
     if (num1 > num2) {
       numStack.push(num1);
-      //   console.log(`Change possible! ${num2} can be changed!`);
-      //   console.log(`Searching for next bigger number than ${num2}..`);
 
       numStack.sort((a, b) => a - b);
       let biggerNum = numStack.splice(
         numStack.findIndex((num) => num > num2),
         1
       );
-
       numStack.push(num2);
       numStack.sort((a, b) => a - b);
-
-      //   console.log(`Found ${biggerNum}! Numstack: ${numStack}`);
-      //   console.log("NChecK", nCheck, i, nCheck.slice(+i + 2));
 
       sol = sol.concat(n.slice(0, nLen - i - 2));
       sol.push(...biggerNum);
       sol = sol.concat(numStack);
-      //   console.log(`SOL: ${sol}`);
+
       return +sol.join("");
     } else {
       numStack.push(num1);
@@ -67,19 +59,19 @@ const nextBigger = function (num) {
   }
 };
 
-// console.log(nextBigger(32541)); //34125
-// console.log(nextBigger()); //0
-// console.log(nextBigger(21)); //0
-// console.log(nextBigger(9)); //0
-// console.log(nextBigger(12)); //21
+console.log(nextBigger(32541)); //34125
+console.log(nextBigger()); //0
+console.log(nextBigger(21)); //0
+console.log(nextBigger(9)); //0
+console.log(nextBigger(12)); //21
 
-// console.log(nextBigger(111)); //0
-// console.log(nextBigger(531)); //0
-// console.log(nextBigger(144)); //414
-// console.log(nextBigger(414)); //441
-// console.log(nextBigger(513)); //531
+console.log(nextBigger(111)); //0
+console.log(nextBigger(531)); //0
+console.log(nextBigger(144)); //414
+console.log(nextBigger(414)); //441
+console.log(nextBigger(513)); //531
 
-// console.log(nextBigger(4322)); //0
-// console.log(nextBigger(2017)); //2071
+console.log(nextBigger(4322)); //0
+console.log(nextBigger(2017)); //2071
 
 console.log(nextBigger(916661459494584)); //916661459494845
