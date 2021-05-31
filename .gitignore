@@ -4,3 +4,4 @@ package-lock.json
 template.js
 *.ipynb
 .ipynb_checkpoints
+"Code Wars/revisited/"
